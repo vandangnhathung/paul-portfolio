@@ -1,6 +1,8 @@
+import type { StaticImageData } from 'next/image'
+
 export interface WorkItem {
     id: string
-    imgUrl: string
+    imgUrl: string | StaticImageData
     containerHeight: string
     workName: string
     workDate: string

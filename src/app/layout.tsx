@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Dock from "@/entities/dock/Dock";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -19,12 +20,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="mdl-js">
       <body
         className={`${inter.variable} antialiased`}
         suppressHydrationWarning
       >
         {children}
+
+        <Dock />
       </body>
     </html>
   );

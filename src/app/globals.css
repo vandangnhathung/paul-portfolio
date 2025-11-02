@@ -9,7 +9,7 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  
+
   --dark-bg-color: hsl(0 0% 7.5%);
   --dark-text-color: hsl(0 0% 90%);
   --dark-text-secondary: hsl(0 0% 60%);
@@ -98,9 +98,18 @@
    Responsive Styles
    =================================== */
 @media (max-width: 900px) {
+
   .container.page-projects,
   .container,
   .container.page-post {
     width: 100% !important;
   }
+}
+
+/* ===================================
+   Utilities
+   =================================== */
+.no-scroll-anchor {
+  /* Prevent browser scroll anchoring adjustments */
+  overflow-anchor: none;
 }

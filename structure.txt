@@ -1,0 +1,67 @@
+.
+├── eslint.config.mjs
+├── next-env.d.ts
+├── next.config.ts
+├── package-lock.json
+├── package.json
+├── pnpm-lock.yaml
+├── postcss.config.mjs
+├── README.md
+├── src
+│   ├── app
+│   │   ├── globals.css
+│   │   ├── layout.tsx
+│   │   ├── my-work
+│   │   │   └── page.tsx
+│   │   └── page.tsx
+│   ├── assets
+│   │   ├── react.svg
+│   │   └── work
+│   │       ├── work-1.jpg
+│   │       ├── work-10.jpg
+│   │       ├── work-11.jpg
+│   │       ├── work-12.jpg
+│   │       ├── work-13.jpg
+│   │       ├── work-14.jpg
+│   │       ├── work-15.jpg
+│   │       ├── work-16.jpg
+│   │       ├── work-17.jpg
+│   │       ├── work-18.jpg
+│   │       ├── work-19.jpg
+│   │       ├── work-2.jpg
+│   │       ├── work-20.jpg
+│   │       ├── work-21.jpg
+│   │       ├── work-22.jpg
+│   │       ├── work-3.jpg
+│   │       ├── work-4.jpg
+│   │       ├── work-5.jpg
+│   │       ├── work-6.jpg
+│   │       ├── work-7.jpg
+│   │       ├── work-8.jpg
+│   │       └── work-9.jpg
+│   ├── entities
+│   │   └── work-item
+│   │       ├── index.ts
+│   │       ├── modal
+│   │       │   └── type.ts
+│   │       └── ui
+│   │           └── WorkItem.tsx
+│   ├── pages
+│   │   ├── home
+│   │   │   ├── index.ts
+│   │   │   └── ui
+│   │   │       └── HomePage.tsx
+│   │   ├── my-work
+│   │   │   ├── index.ts
+│   │   │   └── ui
+│   │   │       └── WorkPage.tsx
+│   │   └── photos
+│   │       └── ui
+│   │           ├── photos.css
+│   │           └── Photos.tsx
+│   └── shared
+│       └── ui
+├── structure.txt
+└── tsconfig.json
+
+19 directories, 46 files

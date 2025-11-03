@@ -1,7 +1,11 @@
+import 'nextra-theme-blog/style.css'
+import '@/styles/globals.css'
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
 import Dock from "@/entities/dock/Dock";
+import { Layout } from "nextra-theme-blog";
+
+
 
 const inter = Inter({
   variable: "--font-inter",
@@ -25,9 +29,12 @@ export default function RootLayout({
         className={`${inter.variable} antialiased`}
         suppressHydrationWarning
       >
-        {children}
-
-        <Dock />
+        <Layout>
+          <div className="min-h-screen flex flex-col justify-between">
+            {children}
+            <Dock />
+          </div>
+        </Layout>
       </body>
     </html>
   );

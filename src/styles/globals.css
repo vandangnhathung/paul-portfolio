@@ -1,0 +1,76 @@
+@import "tailwindcss";
+@import "./typography.css";
+@import "./theme.css";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  font-family: "Urbanist", Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --dark-bg-color: hsl(0 0% 7.5%);
+  --dark-text-color: hsl(0 0% 90%);
+  --dark-text-secondary: hsl(0 0% 60%);
+  --dark-text-tertiary: hsl(0 0% 40%);
+  --dark-btn-bg: hsl(0 0% 12.5%);
+  --dark-card-bg: hsl(0 0% 10%);
+  --dark-card-border: hsl(0 0% 15%);
+}
+
+.dark {
+  --background: #1a1a1a;
+  --foreground: #fafafa;
+  --card: #262626;
+  --card-foreground: #fafafa;
+  --popover: #262626;
+  --popover-foreground: #fafafa;
+  --primary: #e5e5e5;
+  --primary-foreground: #262626;
+  --secondary: #333;
+  --secondary-foreground: #fafafa;
+  --muted: #333;
+  --muted-foreground: #a3a3a3;
+  --accent: #333;
+  --accent-foreground: #fafafa;
+  --destructive: #ef4444;
+  --border: rgba(255, 255, 255, 0.1);
+  --input: rgba(255, 255, 255, 0.15);
+  --ring: #737373;
+  --chart-1: #8b5cf6;
+  --chart-2: #10b981;
+  --chart-3: #f97316;
+  --chart-4: #ec4899;
+  --chart-5: #f43f5e;
+  --sidebar: #262626;
+  --sidebar-foreground: #fafafa;
+  --sidebar-primary: #8b5cf6;
+  --sidebar-primary-foreground: #fafafa;
+  --sidebar-accent: #333;
+  --sidebar-accent-foreground: #fafafa;
+  --sidebar-border: rgba(255, 255, 255, 0.1);
+  --sidebar-ring: #737373;
+}
+
+@layer base {
+
+  /* Disables pull-to-refresh and overscroll glow effect. Still keeps swipe navigations. */
+  html,
+  body {
+    overscroll-behavior-y: none;
+  }
+}
+
+.article-container>article.x\:container {
+  @apply max-w-[700px] py-0;
+}
+
+.content-wrapper> :first-child {
+  @apply mt-0;
+}
+
+.content-wrapper> :last-child {
+  @apply mb-0;
+}

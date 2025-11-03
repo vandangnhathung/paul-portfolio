@@ -1,0 +1,21 @@
+.x\:prose {
+     --tw-prose-body: var(--foreground);
+}
+
+@layer utilities {
+     .heading-1 {
+          @apply text-[1.6em] font-normal;
+     }
+
+     .heading-2 {
+          @apply text-[1.4em] font-normal;
+     }
+
+     .heading-3 {
+          @apply text-[1.2em] font-normal;
+     }
+
+     .heading-4 {
+          @apply text-[1em] font-normal;
+     }
+}

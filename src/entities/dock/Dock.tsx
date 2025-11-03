@@ -5,10 +5,8 @@ import Link from "next/link";
 import "./dock.css";
 import {
   FaHome,
-  FaPalette,
   FaFolderOpen,
   FaCamera,
-  FaTwitter,
   FaGithub,
   FaEnvelope,
 } from "react-icons/fa";
@@ -103,14 +101,8 @@ const Dock = () => {
 
   const icons = [
     { icon: FaHome, path: "/" },
-    { icon: FaPalette, path: "/work" },
-    { icon: FaFolderOpen, path: "/projects" },
+    { icon: FaFolderOpen, path: "/my-work" },
     { icon: FaCamera, path: "/photos" },
-    {
-      icon: FaTwitter,
-      path: "https://twitter.com/codegridweb",
-      external: true,
-    },
     { icon: FaGithub, path: "https://github.com/codegrid", external: true },
     {
       icon: FaEnvelope,

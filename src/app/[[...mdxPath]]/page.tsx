@@ -4,6 +4,7 @@ import type { Metadata } from 'next'
 import React from "react";
 import { PostDetail } from "@/shared/post-detail";
 import { FrontMatter } from "@/lib/get-posts";
+import { notFound } from 'next/navigation';
 
 // Define types for params and metadata
 type PageParams = {
@@ -18,15 +19,39 @@ export const generateStaticParams = generateStaticParamsFor('mdxPath')
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
     const params = await props.params
-    const { metadata } = await importPage(params.mdxPath)
-    return metadata
+    // Exclude static files like favicon.ico, robots.txt, etc.
+    const staticFileExtensions = ['.ico', '.png', '.jpg', '.jpeg', '.gif', '.svg', '.txt', '.xml', '.json']
+    const pathString = params.mdxPath?.join('/') || ''
+    if (staticFileExtensions.some(ext => pathString.endsWith(ext))) {
+        return {}
+    }
+    
+    try {
+        const { metadata } = await importPage(params.mdxPath)
+        return metadata
+    } catch (error) {
+        return {}
+    }
 }
 
 const Wrapper = getMDXComponents().wrapper
 
 export default async function Page(props: PageProps) {
     const params = await props.params
-    const result = await importPage(params.mdxPath)
+    // Exclude static files like favicon.ico, robots.txt, etc.
+    const staticFileExtensions = ['.ico', '.png', '.jpg', '.jpeg', '.gif', '.svg', '.txt', '.xml', '.json']
+    const pathString = params.mdxPath?.join('/') || ''
+    if (staticFileExtensions.some(ext => pathString.endsWith(ext))) {
+        notFound()
+    }
+    
+    let result
+    try {
+        result = await importPage(params.mdxPath)
+    } catch (error) {
+        notFound()
+    }
+    
     const { default: MDXContent, toc, metadata } = result as {
         default: React.ComponentType<any>
         toc: any

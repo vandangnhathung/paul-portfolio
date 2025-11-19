@@ -53,10 +53,8 @@ const DockItem = ({
 
 // Dock component
 const Dock = () => {
-  const [hoveredIndex, setHoveredIndex] = useState(-1);
-  const [hoverEffectsEnabled, setHoverEffectsEnabled] = useState(
-    window.innerWidth >= 900
-  );
+  const [hoveredIndex, setHoveredIndex] = useState(-100);
+  const [hoverEffectsEnabled, setHoverEffectsEnabled] = useState(false);
 
   useEffect(() => {
     const checkScreenSize = () => {
@@ -86,18 +84,10 @@ const Dock = () => {
   const handleMouseLeave = () => {
     if (hoverEffectsEnabled) {
       setTimeout(() => {
-        console.log(hoverEffectsEnabled);
         setHoveredIndex(-100);
       }, 50);
     }
   };
-
-  useEffect(() => {
-    console.log("Component mounted, hoveredIndex:", hoveredIndex);
-    setTimeout(() => {
-      setHoveredIndex(-100);
-    }, 50);
-  }, []);
 
   const icons = [
     { icon: FaHome, path: "/" },
@@ -120,7 +110,7 @@ const Dock = () => {
             IconComponent={item.icon}
             path={item.path}
             isHovered={index === hoveredIndex}
-            isNeighbor={Math.abs(index - hoveredIndex) === 1}
+            isNeighbor={hoveredIndex >= 0 && Math.abs(index - hoveredIndex) === 1}
             onMouseEnter={() => handleMouseEnter(index)}
             external={item.external || false}
           />

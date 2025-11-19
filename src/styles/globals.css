@@ -5,7 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  font-family: "Urbanist", Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: var(--font-ibm-plex-mono), "IBM Plex Mono Fallback", monospace !important;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -55,11 +55,16 @@
 }
 
 @layer base {
-
   /* Disables pull-to-refresh and overscroll glow effect. Still keeps swipe navigations. */
   html,
   body {
     overscroll-behavior-y: none;
+    font-family: var(--font-ibm-plex-mono), "IBM Plex Mono Fallback", monospace !important;
+  }
+
+  /* Ensure all elements inherit the font */
+  * {
+    font-family: inherit;
   }
 }
 

@@ -1,4 +1,5 @@
 import { generateStaticParamsFor, importPage } from 'nextra/pages'
+import type { Heading } from 'nextra'
 import { useMDXComponents as getMDXComponents } from '../../../mdx-components'
 import type { Metadata } from 'next'
 import React from "react";
@@ -53,8 +54,8 @@ export default async function Page(props: PageProps) {
     }
     
     const { default: MDXContent, toc, metadata } = result as {
-        default: React.ComponentType<any>
-        toc: any
+        default: React.ComponentType<Record<string, unknown>>
+        toc: Heading[]
         metadata: Metadata
     }
 

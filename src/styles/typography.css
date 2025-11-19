@@ -1,5 +1,6 @@
 .x\:prose {
      --tw-prose-body: var(--foreground);
+     font-family: var(--font-ibm-plex-mono), "IBM Plex Mono Fallback", monospace !important;
 }
 
 @layer utilities {

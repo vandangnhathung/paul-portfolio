@@ -23,7 +23,7 @@ import WorkImage19 from "@/assets/work/work-19.jpg";
 import WorkImage20 from "@/assets/work/work-20.jpg";
 import WorkImage21 from "@/assets/work/work-21.jpg";
 import WorkImage22 from "@/assets/work/work-22.jpg";
-import { WorkItemCard } from "@/entities/work-item/ui/WorkItemCard";
+import { WorkItemCard } from "@/entities/work-item/WorkItemCard";
 
 gsap.registerPlugin(useGSAP);
 

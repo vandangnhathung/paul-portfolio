@@ -27,13 +27,13 @@ const DockItem = ({
   onMouseEnter,
   external,
 }: DockItemProps) => {
-  const scale = isHovered ? 2.5 : isNeighbor ? 2 : 1;
+  const scale = isHovered ? 2 : isNeighbor ? 2 : 1;
   const margin = isHovered || isNeighbor ? "28px" : "4px";
-  const linkStyle = { transform: `scale(${scale})`, margin: `0 ${margin}` };
+  const linkStyle = { transform: `scale(${scale})`, margin: `0 ${margin}` ,transition: 'all 900ms cubic-bezier(0.075,0.82,0.165,1)' };
 
   return (
     <div 
-      className="relative w-10 h-10 max-[900px]:w-[30px] max-[900px]:h-[30px] bg-[var(--dark-btn-bg)] border border-[var(--dark-card-border)] rounded-[30px] m-0 flex justify-center items-center origin-bottom transition-[700ms] ease-[cubic-bezier(0.075,0.82,0.165,1)]" 
+      className="relative w-10 h-10 max-[900px]:w-[30px] max-[900px]:h-[30px] bg-[var(--dark-btn-bg)] border border-[var(--dark-card-border)] rounded-[30px] m-0 flex justify-center items-center origin-bottom" 
       style={linkStyle} 
       onMouseEnter={onMouseEnter}
     >
@@ -62,12 +62,6 @@ export const Dock = () => {
   useEffect(() => {
     const checkScreenSize = () => {
       const isEnabled = window.innerWidth >= 900;
-      console.log(
-        "Window width:",
-        window.innerWidth,
-        "Hover effects enabled:",
-        isEnabled
-      );
       setHoverEffectsEnabled(isEnabled);
     };
 

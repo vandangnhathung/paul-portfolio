@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { getPosts, PostItem } from "@/shared/lib/get-posts";
+import { getPosts, PostItem } from "@/lib/get-posts";
 import { Link } from "next-view-transitions";
 // import {IconArrowNarrowRight, IconTags} from "@tabler/icons-react";
-import { formatDate } from "@/shared/lib/format-date";
+import { formatDate } from "@/lib/format-date";
 
 type Props = {
     posts?: PostItem[];

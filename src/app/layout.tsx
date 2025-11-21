@@ -1,10 +1,10 @@
 import 'nextra-theme-blog/style.css'
-import '@/shared/styles/globals.css'
+import '@/styles/globals.css'
 import type { Metadata } from "next";
 import { IBM_Plex_Mono } from "next/font/google";
 import { Layout } from "nextra-theme-blog";
-import { CustomHeader } from '@/entities/custom-header';
-import { Dock } from '@/entities/dock';
+import { CustomHeader } from '@/components/custom-header';
+import { Dock } from '@/components/dock';
 
 const ibmPlexMono = IBM_Plex_Mono({
   variable: "--font-ibm-plex-mono",

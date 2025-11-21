@@ -1,4 +1,4 @@
-import {getPosts} from "@/shared/lib/get-posts";
+import {getPosts} from "@/lib/get-posts";
 
 export type TagItem = {
     name: string;

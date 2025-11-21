@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Link } from "next-view-transitions";
 import { isExternalLink } from "@/shared/lib/is-external-link";
-import { LinkBlockHover } from "@/shared/link-block-hover";
 import Image from "next/image";
+import { LinkBlockHover } from './ui';
 
 type Props = {
     title: React.ReactNode;

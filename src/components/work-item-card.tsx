@@ -3,7 +3,7 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import type { WorkItem as WorkItemType } from '@/entities/work-item/model/type'
+import type { WorkItem as WorkItemType } from '@/lib/type'
 
 interface WorkItemProps {
   item: WorkItemType

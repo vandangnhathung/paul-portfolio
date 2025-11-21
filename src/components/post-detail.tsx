@@ -1,10 +1,10 @@
 // @flow
 import * as React from 'react';
-import { formatDate } from "@/shared/lib/format-date";
+import { formatDate } from "@/lib/format-date";
 import { Link } from "next-view-transitions";
-import { getTagUrl } from "@/shared/lib/get-tag-url";
-import { FrontMatter } from "@/shared/lib/get-posts";
-import { Posts } from "@/shared/posts";
+import { getTagUrl } from "@/lib/get-tag-url";
+import { FrontMatter } from "@/lib/get-posts";
+import { Posts } from "@/components/posts";
 
 type Props = {
     metadata: FrontMatter;

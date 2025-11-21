@@ -1,5 +1,5 @@
 .article-container>article.x\:container {
-     @apply max-w-[700px] py-0;
+     @apply max-w-[800px] py-0;
 }
 
 .content-wrapper> :first-child {

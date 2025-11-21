@@ -9,7 +9,7 @@
      }
 
      .heading-2 {
-          @apply text-[1.4em] font-normal;
+          @apply text-[1.5em] font-normal;
      }
 
      .heading-3 {

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Link } from "next-view-transitions";
 import { isExternalLink } from "@/shared/lib/is-external-link";
-import { LinkBlockHover } from "@/shared/link-block-hover";
+import { LinkBlockHover } from "@/shared/ui";
 import Image from "next/image";
 
 type Props = {

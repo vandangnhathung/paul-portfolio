@@ -4,7 +4,7 @@ import { formatDate } from "@/shared/lib/format-date";
 import { Link } from "next-view-transitions";
 import { getTagUrl } from "@/shared/lib/get-tag-url";
 import { FrontMatter } from "@/shared/lib/get-posts";
-import { Posts } from "@/shared/posts";
+import { Posts } from "@/shared/ui";
 
 type Props = {
     metadata: FrontMatter;

@@ -1,9 +1,8 @@
 import { useMDXComponents as getBlogMDXComponents } from 'nextra-theme-blog'
 import { useMDXComponents as getNextraComponents } from 'nextra/mdx-components'
-import { Posts } from "@/shared/posts";
+import { Posts, LinkBlock, Clients } from "@/shared/ui";
 import { Callout } from 'nextra/components'
-import { LinkBlock } from '@/shared/link-block';
-import { Clients } from '@/shared/clients';
+import { WorkGallery } from '@/widgets/work-gallery';
 
 const blogComponents = getBlogMDXComponents({
      h1: ({ children }) => (
@@ -46,5 +45,6 @@ export function useMDXComponents() {
           ...blogComponents,
           ...defaultComponents,
           Posts: Posts,
+          WorkGallery: WorkGallery,
      }
 }

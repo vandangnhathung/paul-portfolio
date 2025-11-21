@@ -3,8 +3,8 @@ import type { Heading } from 'nextra'
 import { useMDXComponents as getMDXComponents } from '../../../mdx-components'
 import type { Metadata } from 'next'
 import React from "react";
-import { PostDetail } from "@/shared/post-detail";
-import { FrontMatter } from "@/lib/get-posts";
+import { PostDetail } from "@/shared/ui";
+import { FrontMatter } from "@/shared/lib/get-posts";
 import { notFound } from 'next/navigation';
 
 // Define types for params and metadata

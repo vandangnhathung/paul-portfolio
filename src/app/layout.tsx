@@ -1,11 +1,10 @@
 import 'nextra-theme-blog/style.css'
-import '@/styles/globals.css'
+import '@/shared/styles/globals.css'
 import type { Metadata } from "next";
 import { IBM_Plex_Mono } from "next/font/google";
-import Dock from "@/entities/dock/Dock";
 import { Layout } from "nextra-theme-blog";
-
-
+import { CustomHeader } from '@/entities/custom-header';
+import { Dock } from '@/entities/dock';
 
 const ibmPlexMono = IBM_Plex_Mono({
   variable: "--font-ibm-plex-mono",
@@ -32,6 +31,8 @@ export default function RootLayout({
       >
         <Layout>
           <div className="min-h-screen flex flex-col justify-between">
+            <CustomHeader/>
+
             {children}
             <Dock />
           </div>

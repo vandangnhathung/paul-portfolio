@@ -1,3 +1,3 @@
-export { WorkItemCard } from './WorkItemCard'
-export type { WorkItem, WorkItemType } from './type'
+export { WorkItemCard } from './ui/work-item-card'
+export type { WorkItem, WorkItemType } from './model/type'
 

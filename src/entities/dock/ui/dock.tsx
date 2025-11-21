@@ -55,7 +55,7 @@ const DockItem = ({
 };
 
 // Dock component
-const Dock = () => {
+export const Dock = () => {
   const [hoveredIndex, setHoveredIndex] = useState(-100);
   const [hoverEffectsEnabled, setHoverEffectsEnabled] = useState(false);
 
@@ -126,4 +126,3 @@ const Dock = () => {
   );
 };
 
-export default Dock;

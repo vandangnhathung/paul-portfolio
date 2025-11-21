@@ -3,13 +3,13 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import type { WorkItem as WorkItemType } from '@/entities/work-item/type'
+import type { WorkItem as WorkItemType } from '@/entities/work-item/model/type'
 
 interface WorkItemProps {
   item: WorkItemType
 }
 
-export function WorkItemCard({ item }: WorkItemProps) {
+export const WorkItemCard = ({ item }: WorkItemProps) => {
   const { imgUrl, containerHeight, workName, workDate, type, url } = item
   const heightClassByContainer: Record<string, string> = {
     '200': 'h-[200px]',
@@ -57,3 +57,4 @@ export function WorkItemCard({ item }: WorkItemProps) {
     </div>
   )
 }
+

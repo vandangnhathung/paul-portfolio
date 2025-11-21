@@ -5,6 +5,7 @@ import { IBM_Plex_Mono } from "next/font/google";
 import { Layout } from "nextra-theme-blog";
 import { CustomHeader } from '@/components/custom-header';
 import { Dock } from '@/components/dock';
+import { ViewTransitions } from 'next-view-transitions';
 
 const ibmPlexMono = IBM_Plex_Mono({
   variable: "--font-ibm-plex-mono",
@@ -29,16 +30,18 @@ export default function RootLayout({
      suppressHydrationWarning
 
      className={`${ibmPlexMono.variable}`}>
-      <body>
-        <Layout>
-          <div className="min-h-screen flex flex-col justify-between">
-            <CustomHeader/>
+      <ViewTransitions>
+        <body>
+          <Layout>
+            <div className="min-h-screen flex flex-col justify-between">
+              <CustomHeader/>
 
-            {children}
-            <Dock />
-          </div>
-        </Layout>
-      </body>
+              {children}
+              <Dock />
+            </div>
+          </Layout>
+        </body>
+      </ViewTransitions>
     </html>
   );
 }

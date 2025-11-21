@@ -33,7 +33,7 @@ export function isExternalLink(href: string, currentHostname?: string): boolean 
 
         // Compare hostnames
         return url.hostname !== hostname;
-    } catch (error) {
+    } catch {
         return false;
     }
 }

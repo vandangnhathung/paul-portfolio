@@ -24,11 +24,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`mdl-js ${ibmPlexMono.variable}`}>
-      <body
-        className="antialiased"
-        suppressHydrationWarning
-      >
+    <html lang="en" dir="ltr"
+     // Suggested by `next-themes` package https://github.com/pacocoursey/next-themes#with-app
+     suppressHydrationWarning
+
+     className={`${ibmPlexMono.variable}`}>
+      <body>
         <Layout>
           <div className="min-h-screen flex flex-col justify-between">
             <CustomHeader/>

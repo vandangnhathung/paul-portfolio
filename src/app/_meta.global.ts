@@ -1,4 +1,4 @@
-export default {
+const meta = {
     '*': {
         type: 'page'
     },
@@ -12,3 +12,5 @@ export default {
     //     title: "RSS",
     // },
 }
+
+export default meta

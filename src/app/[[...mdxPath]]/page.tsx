@@ -30,7 +30,7 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
     try {
         const { metadata } = await importPage(params.mdxPath)
         return metadata
-    } catch (error) {
+    } catch {
         return {}
     }
 }
@@ -49,7 +49,7 @@ export default async function Page(props: PageProps) {
     let result
     try {
         result = await importPage(params.mdxPath)
-    } catch (error) {
+    } catch {
         notFound()
     }
     

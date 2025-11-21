@@ -13,16 +13,9 @@ interface DiscordThread {
     id: string;
     name: string;
     applied_tags?: string[];
+    parent_id?: string;
 }
 
-interface DiscordMessage {
-    id: string;
-    content: string;
-    timestamp: string;
-    author: {
-        username: string;
-    };
-}
 
 interface ForumTag {
     id: string;
@@ -34,6 +27,7 @@ interface ForumTag {
 
 interface ChannelData {
     available_tags?: ForumTag[];
+    guild_id?: string;
 }
 
 export async function getDiscordBookmarks(): Promise<Bookmark[]> {
@@ -82,16 +76,18 @@ export async function getDiscordBookmarks(): Promise<Bookmark[]> {
         );
 
         // Step 3: Get active threads from guild
-        const guildId = (channelData as any).guild_id;
-        const guildThreadsResponse = await fetch(
-            `https://discord.com/api/v10/guilds/${guildId}/threads/active`,
-            {
-                headers: {
-                    Authorization: `Bot ${DISCORD_BOT_TOKEN}`,
-                },
-                next: { revalidate: 3600 },
-            }
-        );
+        const guildId = channelData.guild_id;
+        const guildThreadsResponse = guildId
+            ? await fetch(
+                `https://discord.com/api/v10/guilds/${guildId}/threads/active`,
+                {
+                    headers: {
+                        Authorization: `Bot ${DISCORD_BOT_TOKEN}`,
+                    },
+                    next: { revalidate: 3600 },
+                }
+            )
+            : { ok: false } as Response;
 
         const archivedPublicData = archivedPublicResponse.ok
             ? await archivedPublicResponse.json()
@@ -103,7 +99,7 @@ export async function getDiscordBookmarks(): Promise<Bookmark[]> {
 
         // Filter guild threads to only those in our channel
         const channelThreads = guildThreadsData.threads?.filter(
-            (t: any) => t.parent_id === DISCORD_CHANNEL_ID
+            (t: DiscordThread) => t.parent_id === DISCORD_CHANNEL_ID
         ) || [];
 
         // Combine all threads
@@ -127,7 +123,19 @@ export async function getDiscordBookmarks(): Promise<Bookmark[]> {
             );
 
             if (messagesResponse.ok) {
-                const messages: any[] = await messagesResponse.json();
+                interface MessageData {
+                    content: string;
+                    timestamp: string;
+                    author: {
+                        username: string;
+                    };
+                    embeds?: Array<{
+                        thumbnail?: { url?: string };
+                        image?: { url?: string };
+                    }>;
+                    attachments?: Array<{ url: string }>;
+                }
+                const messages: MessageData[] = await messagesResponse.json();
                 const firstMessage = messages[0];
 
                 if (firstMessage) {
@@ -148,7 +156,7 @@ export async function getDiscordBookmarks(): Promise<Bookmark[]> {
                         null;
 
                     // get thumbnail from attachment
-                    if (!thumbnail && firstMessage.attachments.length > 0) {
+                    if (!thumbnail && firstMessage.attachments && firstMessage.attachments.length > 0) {
                         thumbnail = firstMessage.attachments[0].url;
                     }
 

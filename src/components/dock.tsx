@@ -10,7 +10,7 @@ import {
   FaEnvelope,
   FaSpinner,
 } from "react-icons/fa";
-import { useRouteLoadingStore } from "@/stores/routeLoadingStore";
+import { useRouteLoadingStore } from "@/stores/route-loading-store";
 import clsx from "clsx";
 
 interface DockItemProps {

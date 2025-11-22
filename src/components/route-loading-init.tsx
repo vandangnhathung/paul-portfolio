@@ -1,7 +1,7 @@
 // src/components/route-loading-init.tsx
 'use client'
 
-import { useRouteLoadingSync } from '@/hooks/useRouteLoadingSync';
+import { useRouteLoadingSync } from '@/hooks/use-route-loading-sync';
 
 /**
  * Component to initialize route loading sync

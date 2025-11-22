@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect } from 'react';
-import { useRouteLoadingStore } from '@/stores/routeLoadingStore';
+import { useRouteLoadingStore } from '@/stores/route-loading-store';
 
 /**
  * Fixed top loading bar component

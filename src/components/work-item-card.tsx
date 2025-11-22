@@ -28,22 +28,24 @@ export const WorkItemCard = ({ item }: WorkItemProps) => {
       className={`work-item opacity-0 translate-y-[300px] ${type === 'img' ? 'p-0' : 'p-1'
         } relative mb-2 overflow-hidden rounded-lg border border-zinc-800`}
     >
-      <div className="relative">
-        <div className={`w-full ${heightClass} overflow-hidden rounded-lg`}>
-          <Image
-            src={imgUrl}
-            alt={workName}
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="object-cover scale-110"
-          />
-        </div>
+      <Link href={url} className="block">
+        <div className="relative">
+          <div className={`w-full ${heightClass} overflow-hidden rounded-lg`}>
+            <Image
+              src={imgUrl}
+              alt={workName}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              className="object-cover scale-110"
+            />
+          </div>
 
-        <div className="absolute bottom-0 w-full flex justify-between p-4">
-          <p className="font-medium">{workName}</p>
-          <p className="text-zinc-400">{workDate}</p>
+          <div className="absolute bottom-0 w-full flex justify-between p-4">
+            <p className="font-medium">{workName}</p>
+            <p className="text-zinc-400">{workDate}</p>
+          </div>
         </div>
-      </div>
+      </Link>
 
       {(type === 'blog' || type === 'article') && (
         <div className="mt-2">

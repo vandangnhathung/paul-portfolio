@@ -3,7 +3,7 @@
 
 import { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
-import { useRouteLoadingStore } from '@/stores/routeLoadingStore';
+import { useRouteLoadingStore } from '@/stores/route-loading-store';
 
 /**
  * Hook to sync Next.js route changes with Zustand store

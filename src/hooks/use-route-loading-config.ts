@@ -1,6 +1,6 @@
 'use client'
 
-import { useRouteLoadingStore } from '@/stores/routeLoadingStore';
+import { useRouteLoadingStore } from '@/stores/route-loading-store';
 
 /**
  * Utility hook to configure route loading duration

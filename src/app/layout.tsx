@@ -6,6 +6,8 @@ import { Layout } from "nextra-theme-blog";
 import { CustomHeader } from '@/components/custom-header';
 import { Dock } from '@/components/dock';
 import { ViewTransitions } from 'next-view-transitions';
+import { RouteLoadingInit } from '@/components/route-loading-init';
+import { RouteProgressBar } from '@/components/route-progress-bar';
 
 const ibmPlexMono = IBM_Plex_Mono({
   variable: "--font-ibm-plex-mono",
@@ -32,6 +34,8 @@ export default function RootLayout({
      className={`${ibmPlexMono.variable}`}>
       <ViewTransitions>
         <body>
+          <RouteLoadingInit />
+          <RouteProgressBar />
           <Layout>
             <div className="min-h-screen flex flex-col justify-between">
               <CustomHeader/>

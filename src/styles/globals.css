@@ -80,3 +80,13 @@
 .content-wrapper> :last-child {
   @apply mb-0;
 }
+
+/* Spinner animation for loading indicator */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

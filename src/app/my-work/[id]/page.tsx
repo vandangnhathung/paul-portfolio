@@ -3,6 +3,7 @@ import { getWorkItemById, getWorkItemStaticParams } from '@/lib/get-work-items';
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import React from 'react';
+import { Link } from 'next-view-transitions';
 
 type PageParams = {
   id: string;
@@ -55,6 +56,26 @@ export default async function WorkItemPage(props: PageProps): Promise<React.JSX.
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
       <div className="mb-6">
+        <Link 
+          href="/my-work" 
+          className="inline-flex items-center gap-2 text-zinc-400 hover:text-zinc-200 no-underline hover:underline mb-6 transition-colors"
+        >
+          <svg 
+            xmlns="http://www.w3.org/2000/svg" 
+            width="16" 
+            height="16" 
+            viewBox="0 0 24 24" 
+            fill="none" 
+            stroke="currentColor" 
+            strokeWidth="2" 
+            strokeLinecap="round" 
+            strokeLinejoin="round"
+          >
+            <path d="m12 19-7-7 7-7"/>
+            <path d="M19 12H5"/>
+          </svg>
+          Back to My Work
+        </Link>
         <h1 className="text-4xl font-bold mb-2">{workItem.workName}</h1>
         <p className="text-zinc-400 text-lg">{workItem.workDate}</p>
       </div>

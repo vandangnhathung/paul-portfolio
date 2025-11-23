@@ -66,7 +66,7 @@ const DockItem = ({
 
 const LoadingItem = ({ isLoading }: { isLoading: boolean }) => {
   return (
-    <div className="absolute left-[calc(100%-8px)] -translate-x-full top-1/2 -translate-y-1/2">
+    <div className="pointer-events-none absolute left-[calc(100%-8px)] -translate-x-full top-1/2 -translate-y-1/2">
       <div
         className={clsx(
           "w-10 h-10 transition-opacity duration-700 max-[900px]:w-[30px] max-[900px]:h-[30px] bg-[var(--dark-btn-bg)] border border-[var(--dark-card-border)] rounded-[30px] flex justify-center items-center origin-bottom",

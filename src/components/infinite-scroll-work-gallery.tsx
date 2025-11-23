@@ -11,7 +11,7 @@ gsap.registerPlugin(useGSAP);
 
 const COLUMN_COUNT = 3;
 
-export const WorkGallery = () => {
+export const InfiniteScrollWorkGallery = () => {
   // ============================================================================
   // STEP 1: Initialize refs and get work items data
   // ============================================================================
@@ -169,3 +169,4 @@ export const WorkGallery = () => {
     </div>
   );
 };
+

@@ -1,7 +1,7 @@
 import { useMDXComponents as getBlogMDXComponents } from 'nextra-theme-blog'
 import { useMDXComponents as getNextraComponents } from 'nextra/mdx-components'
 import { Posts } from "@/components/posts";
-import { WorkGallery } from '@/components/work-gallery';
+import { InfiniteScrollWorkGallery } from '@/components/infinite-scroll-work-gallery';
 import { CustomHeader } from '@/components/custom-header';
 
 const blogComponents = getBlogMDXComponents({
@@ -45,7 +45,7 @@ export function useMDXComponents() {
           ...blogComponents,
           ...defaultComponents,
           Posts: Posts,
-          WorkGallery: WorkGallery,
+          WorkGallery: InfiniteScrollWorkGallery,
           CustomHeader: CustomHeader,
      }
 }

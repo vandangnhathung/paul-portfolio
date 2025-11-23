@@ -1,34 +1,46 @@
 "use client";
 
-import React, { useEffect } from "react";
-
-import { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import Lenis from 'lenis'
-
 import { WorkItemCard } from "@/components/work-item-card";
 import { getWorkItems } from "@/lib/get-work-items";
 
 gsap.registerPlugin(useGSAP);
 
+const COLUMN_COUNT = 3;
+
 export const WorkGallery = () => {
+  // ============================================================================
+  // STEP 1: Initialize refs and get work items data
+  // ============================================================================
+  // Store references to DOM elements and animation functions needed throughout
+  // the component lifecycle for custom scroll behavior
   const container = useRef<HTMLDivElement>(null);
   const workItems = getWorkItems();
   const lenisRef = useRef<Lenis | null>(null);
   const wheelHandlerRef = useRef<((e: WheelEvent) => void) | null>(null);
   const incrRef = useRef<number>(0);
-  const yTo1Ref = useRef<((value: number) => void) | null>(null);
-  const yTo2Ref = useRef<((value: number) => void) | null>(null);
-  const yTo3Ref = useRef<((value: number) => void) | null>(null);
+  const yToRefs = useRef<Array<((value: number) => void) | null>>([]);
   const animationCompleteRef = useRef<(() => void) | null>(null);
 
+  // ============================================================================
+  // STEP 2: Disable browser's default scroll restoration
+  // ============================================================================
+  // Prevent browser from automatically restoring scroll position on page load,
+  // which would interfere with our custom scroll animation system
   useEffect(() => {
     if ("scrollRestoration" in window.history) {
       window.history.scrollRestoration = "manual";
     }
   }, []);
 
+  // ============================================================================
+  // STEP 3: Play entrance animation when component mounts
+  // ============================================================================
+  // Animate all work items from hidden/offset position to visible with a
+  // staggered cascade effect. Once complete, trigger custom scroll initialization.
   useGSAP(
     () => {
       gsap.to(".work-item", {
@@ -37,7 +49,6 @@ export const WorkGallery = () => {
         opacity: 1,
         duration: 1,
         onComplete: () => {
-          // Run the rest of the code after animation completes
           if (animationCompleteRef.current) {
             animationCompleteRef.current();
           }
@@ -47,86 +58,59 @@ export const WorkGallery = () => {
     { scope: container }
   );
 
+  // ============================================================================
+  // STEP 4: Setup custom infinite scroll system
+  // ============================================================================
+  // Create a custom scroll experience where wheel events animate columns
+  // independently with infinite looping. This replaces standard page scrolling
+  // with a smooth, controlled animation system.
   useEffect(() => {
-    if ("scrollRestoration" in history) {
-      history.scrollRestoration = "manual";
-    }
-
+    // Initialize Lenis (kept for potential future use, but stopped for now)
     const lenis = new Lenis({
       lerp: 0.05,
     });
-    // Stop Lenis to prevent conflicts with custom scroll handler
     lenis.stop();
     lenisRef.current = lenis;
 
-    // force scroll-to-top on entry and when restored from bfcache
-      // const handlePageShow = () => lenis.scrollTo(0, { immediate: true });
-      // handlePageShow();
-      // window.addEventListener("pageshow", handlePageShow);
-
+    // Initialize the column animation system
     const initEffect = () => {
-      // calculating the height of half a column to determine when it should loop.
-      const col1 = document.querySelector(
-        ".work-gallery .container1"
-      ) as HTMLElement;
-      const half1 = col1?.clientHeight / 2;
-      const wrap1 = gsap.utils.wrap(-half1, 0);
+      // Create animation functions for each column that can smoothly move
+      // columns up/down with wrapping for infinite scroll effect
+      const yToFunctions = Array.from({ length: COLUMN_COUNT }, (_, i) => {
+        const colIndex = i + 1;
+        const col = document.querySelector(
+          `.work-gallery .container${colIndex}`
+        ) as HTMLElement;
+        
+        if (!col) return null;
 
-      console.log("half1", half1);
+        const half = col.clientHeight / 2;
+        const wrap = gsap.utils.wrap(-half, 0);
 
-      const yTo1 = gsap.quickTo(col1, "y", {
-        duration: 1.5, // Changes over 0.5s
-        ease: "power3", // Non-linear
-        modifiers: {
-          y: gsap.utils.unitize(wrap1),
-        },
+        return gsap.quickTo(col, "y", {
+          duration: 1.5,
+          ease: "power3",
+          modifiers: {
+            y: gsap.utils.unitize(wrap),
+          },
+        });
       });
-      yTo1Ref.current = yTo1;
 
-      const col2 = document.querySelector(
-        ".work-gallery .container2"
-      ) as HTMLElement;
-      const half2 = col2?.clientHeight / 2;
-      const wrap2 = gsap.utils.wrap(-half2, 0);
+      yToRefs.current = yToFunctions;
 
-      const yTo2 = gsap.quickTo(col2, "y", {
-        duration: 1.5, // Changes over 0.5s
-        ease: "power3", // Non-linear
-        modifiers: {
-          y: gsap.utils.unitize(wrap2),
-        },
-      });
-      yTo2Ref.current = yTo2;
-
-      const col3 = document.querySelector(
-        ".work-gallery .container3"
-      ) as HTMLElement;
-      const half3 = col3?.clientHeight / 2;
-      const wrap3 = gsap.utils.wrap(-half3, 0);
-
-      const yTo3 = gsap.quickTo(col3, "y", {
-        duration: 1.5, // Changes over 0.5s
-        ease: "power3", // Non-linear
-        modifiers: {
-          y: gsap.utils.unitize(wrap3),
-        },
-      });
-      yTo3Ref.current = yTo3;
-
+      // Listen to wheel events and translate scroll delta into column animations
       const onWheel = (e: WheelEvent) => {
         incrRef.current -= e.deltaY / 2;
-        console.log("incr", incrRef.current);
-        if (yTo1Ref.current) yTo1Ref.current(incrRef.current);
-        if (yTo2Ref.current) yTo2Ref.current(incrRef.current);
-        if (yTo3Ref.current) yTo3Ref.current(incrRef.current);
+        yToRefs.current.forEach((yTo) => {
+          if (yTo) yTo(incrRef.current);
+        });
       };
 
       wheelHandlerRef.current = onWheel;
-      const opts: AddEventListenerOptions = { passive: true };
-      window.addEventListener("wheel", onWheel, opts);
+      window.addEventListener("wheel", onWheel, { passive: true });
     };
 
-    // Set up the callback to run after animation completes
+    // Wait for initial animation to complete before enabling custom scroll
     animationCompleteRef.current = () => {
       const onLoad = () => initEffect();
 
@@ -137,66 +121,51 @@ export const WorkGallery = () => {
       }
     };
 
+    // Cleanup: remove all event listeners and destroy instances on unmount
     return () => {
-      // Clean up wheel event listener
       if (wheelHandlerRef.current) {
         window.removeEventListener("wheel", wheelHandlerRef.current);
         wheelHandlerRef.current = null;
       }
-      // Clean up Lenis instance
       if (lenisRef.current) {
         lenisRef.current.destroy();
         lenisRef.current = null;
       }
-      // Reset refs
-      yTo1Ref.current = null;
-      yTo2Ref.current = null;
-      yTo3Ref.current = null;
+      yToRefs.current = [];
       animationCompleteRef.current = null;
-      // window.removeEventListener('pageshow', handlePageShow)
     };
   }, []);
 
-  // Split work items into three columns for the masonry layout
-  const column1 = workItems.filter((_, index) => index % 3 === 0);
-  const column2 = workItems.filter((_, index) => index % 3 === 1);
-  const column3 = workItems.filter((_, index) => index % 3 === 2);
+  // ============================================================================
+  // STEP 5: Distribute work items across columns
+  // ============================================================================
+  // Split the work items array into equal columns using modulo distribution
+  // (item 0 goes to col 0, item 1 to col 1, item 2 to col 2, item 3 to col 0, etc.)
+  const columns = Array.from({ length: COLUMN_COUNT }, (_, colIndex) =>
+    workItems.filter((_, index) => index % COLUMN_COUNT === colIndex)
+  );
 
+  // ============================================================================
+  // STEP 6: Render the gallery layout
+  // ============================================================================
+  // Create a masonry-style layout with columns. Each column renders its items
+  // twice (original + duplicate) to enable seamless infinite scrolling when
+  // columns wrap around during animation.
   return (
     <div
       className="work-gallery overflow-hidden h-screen w-full flex flex-col lg:flex-row gap-2 no-scroll-anchor"
       ref={container}
     >
-      <div className="container1 w-full h-max">
-        {column1.map((item) => {
-          return (
+      {columns.map((column, colIndex) => (
+        <div key={colIndex} className={`container${colIndex + 1} w-full h-max`}>
+          {column.map((item) => (
             <WorkItemCard key={item.id} item={item} />
-          )
-        })}
-        {column1.map((item) => {
-          return (
-            <WorkItemCard key={item.id} item={item} />
-          )
-        })}
-      </div>
-
-      <div className="container2 w-full h-max">
-        {column2.map((item) => (
-          <WorkItemCard key={item.id} item={item} />
-        ))}
-        {column2.map((item) => (
-          <WorkItemCard key={item.id} item={item} />
-        ))}
-      </div>
-
-      <div className="container3 w-full h-max">
-        {column3.map((item) => (
-          <WorkItemCard key={item.id} item={item} />
-        ))}
-         {column3.map((item) => (
-          <WorkItemCard key={item.id} item={item} />
-        ))}
-      </div>
+          ))}
+          {column.map((item) => (
+            <WorkItemCard key={`duplicate-${item.id}`} item={item} />
+          ))}
+        </div>
+      ))}
     </div>
   );
 };

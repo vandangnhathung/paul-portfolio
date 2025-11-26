@@ -4,6 +4,8 @@ import React, { Suspense } from 'react';
 import dynamic from 'next/dynamic';
 import type { RegistryItem } from '@/lib/registry-types';
 import { RegistryPreview } from './registry-preview';
+import { OpenInV0Button } from './open-in-v0-button';
+import { getRegistryUrl } from '@/lib/getRegistryUrl';
 
 type SandpackDemoProps = {
     registryItem: RegistryItem;
@@ -58,16 +60,30 @@ export function SandpackDemo({
         ssr: false,
     });
 
+    // Generate registry URL for V0
+    const exampleRegistryUrl = getRegistryUrl({
+        name: registryItem.name,
+        fileNamePostfix: `-${exampleFile}`
+    });
+
     return (
-        <RegistryPreview height={height} resizable={resizable}>
-            <Suspense fallback={
-                <div className="p-8 flex items-center justify-center">
-                    <p className="text-zinc-500 text-sm">Loading demo...</p>
+        <div className="mt-6">
+            <RegistryPreview height={height} resizable={resizable}>
+                <Suspense fallback={
+                    <div className="p-8 flex items-center justify-center">
+                        <p className="text-zinc-500 text-sm">Loading demo...</p>
+                    </div>
+                }>
+                    <ExampleComponent />
+                </Suspense>
+            </RegistryPreview>
+            
+            {openInV0 && (
+                <div className="mt-2 flex items-center justify-end">
+                    <OpenInV0Button url={exampleRegistryUrl} text="Edit in" />
                 </div>
-            }>
-                <ExampleComponent />
-            </Suspense>
-        </RegistryPreview>
+            )}
+        </div>
     );
 }
 

@@ -5,20 +5,24 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import Lenis from 'lenis'
 import { WorkItemCard } from "@/components/work-item-card";
-import { getWorkItems } from "@/lib/get-work-items";
+import type { WorkItem } from '@/lib/type';
 
 gsap.registerPlugin(useGSAP);
 
 const COLUMN_COUNT = 3;
 
-export const InfiniteScrollWorkGallery = () => {
+type InfiniteScrollWorkGalleryProps = {
+  workItems?: WorkItem[];
+};
+
+export const InfiniteScrollWorkGallery = ({ workItems: initialWorkItems }: InfiniteScrollWorkGalleryProps) => {
   // ============================================================================
   // STEP 1: Initialize refs and get work items data
   // ============================================================================
   // Store references to DOM elements and animation functions needed throughout
   // the component lifecycle for custom scroll behavior
   const container = useRef<HTMLDivElement>(null);
-  const workItems = getWorkItems();
+  const workItems = initialWorkItems || [];
   const lenisRef = useRef<Lenis | null>(null);
   const wheelHandlerRef = useRef<((e: WheelEvent) => void) | null>(null);
   const incrRef = useRef<number>(0);
@@ -144,6 +148,15 @@ export const InfiniteScrollWorkGallery = () => {
   const columns = Array.from({ length: COLUMN_COUNT }, (_, colIndex) =>
     workItems.filter((_, index) => index % COLUMN_COUNT === colIndex)
   );
+
+  // Show loading state if no work items
+  if (workItems.length === 0) {
+    return (
+      <div className="work-gallery overflow-hidden h-screen w-full flex items-center justify-center">
+        <p className="text-zinc-400">Loading work items...</p>
+      </div>
+    );
+  }
 
   // ============================================================================
   // STEP 6: Render the gallery layout

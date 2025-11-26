@@ -1,8 +1,11 @@
 import { useMDXComponents as getBlogMDXComponents } from 'nextra-theme-blog'
 import { useMDXComponents as getNextraComponents } from 'nextra/mdx-components'
 import { Posts } from "@/components/posts";
-import { InfiniteScrollWorkGallery } from '@/components/infinite-scroll-work-gallery';
+import { WorkGallery } from '@/components/work-gallery-wrapper';
 import { CustomHeader } from '@/components/custom-header';
+import { RegistryDemo } from '@/components/registry-demo';
+import { RegistryInstall } from '@/components/registry-install';
+import { RegistryPropsTable } from '@/components/registry-props-table';
 
 const blogComponents = getBlogMDXComponents({
      h1: ({ children }) => (
@@ -45,7 +48,10 @@ export function useMDXComponents() {
           ...blogComponents,
           ...defaultComponents,
           Posts: Posts,
-          WorkGallery: InfiniteScrollWorkGallery,
+          WorkGallery: WorkGallery,
           CustomHeader: CustomHeader,
+          RegistryDemo: RegistryDemo,
+          RegistryInstall: RegistryInstall,
+          RegistryPropsTable: RegistryPropsTable,
      }
 }

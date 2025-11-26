@@ -4,6 +4,8 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import React from 'react';
 import { Link } from 'next-view-transitions';
+import { importPage } from 'nextra/pages';
+import { useMDXComponents as getMDXComponents } from '../../../../mdx-components';
 
 type PageParams = {
   id: string;
@@ -27,12 +29,18 @@ export async function generateStaticParams(): Promise<Array<{ id: string }>> {
  */
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
   const params = await props.params;
-  const workItem = getWorkItemById(params.id);
+  const workItem = await getWorkItemById(params.id);
 
   if (!workItem) {
-    return {
-      title: 'Work Not Found',
-    };
+    // Try to load as MDX content
+    try {
+      const { metadata } = await importPage(['my-work', params.id]);
+      return metadata;
+    } catch {
+      return {
+        title: 'Work Not Found',
+      };
+    }
   }
 
   return {
@@ -44,15 +52,115 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
 /**
  * Work item detail page component
  * Displays individual work item details
+ * @see https://nextra.org/docs/docs-theme/configuration
  */
 export default async function WorkItemPage(props: PageProps): Promise<React.JSX.Element> {
   const params = await props.params;
-  const workItem = getWorkItemById(params.id);
+  const workItem = await getWorkItemById(params.id);
 
+  const Wrapper = getMDXComponents().wrapper;
+
+  // If not a work item, try loading as MDX content
   if (!workItem) {
-    notFound();
+    try {
+      // Try to load as MDX content from content/my-work/[id].mdx
+      const result = await importPage(['my-work', params.id]);
+      const MDXContent = result.default as React.ComponentType<Record<string, unknown>>;
+      const mdxMetadata = result.metadata as Metadata;
+      const mdxToc = result.toc as Array<{ id: string; depth: number; value: string }>;
+
+      return (
+        <div className="container mx-auto px-4 py-8 max-w-4xl">
+          <div className="mb-6">
+            <Link 
+              href="/my-work" 
+              className="inline-flex items-center gap-2 text-zinc-400 hover:text-zinc-200 no-underline hover:underline mb-6 transition-colors"
+            >
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                width="16" 
+                height="16" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                strokeWidth="2" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+              >
+                <path d="m12 19-7-7 7-7"/>
+                <path d="M19 12H5"/>
+              </svg>
+              Back to My Work
+            </Link>
+          </div>
+          <div className="prose prose-invert max-w-none">
+            {MDXContent && mdxMetadata && mdxToc && (
+              // @ts-expect-error - Wrapper expects toc and metadata props
+              <Wrapper toc={mdxToc} metadata={mdxMetadata}>
+                <MDXContent {...props} params={params} />
+              </Wrapper>
+            )}
+          </div>
+        </div>
+      );
+    } catch {
+      // If MDX also fails, return 404
+      notFound();
+    }
   }
 
+  // Load MDX content from content/my-work/[id].mdx
+  // @see https://nextra.org/docs/docs-theme/configuration
+  let MDXContent: React.ComponentType<Record<string, unknown>> | null = null;
+  let mdxMetadata: Metadata | null = null;
+  let mdxToc: Array<{ id: string; depth: number; value: string }> | null = null;
+  try {
+    const result = await importPage(['my-work', params.id]);
+    MDXContent = result.default as React.ComponentType<Record<string, unknown>>;
+    mdxMetadata = result.metadata as Metadata;
+    mdxToc = result.toc as Array<{ id: string; depth: number; value: string }>;
+  } catch (error) {
+    // If MDX content fails to load, continue without it
+    console.warn('Failed to load MDX content:', error);
+  }
+
+  // If MDX content exists, render it as primary content
+  if (MDXContent && mdxMetadata && mdxToc) {
+    return (
+      <div className="container mx-auto px-4 py-8 max-w-4xl">
+        <div className="mb-6">
+          <Link 
+            href="/my-work" 
+            className="inline-flex items-center gap-2 text-zinc-400 hover:text-zinc-200 no-underline hover:underline mb-6 transition-colors"
+          >
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              width="16" 
+              height="16" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="currentColor" 
+              strokeWidth="2" 
+              strokeLinecap="round" 
+              strokeLinejoin="round"
+            >
+              <path d="m12 19-7-7 7-7"/>
+              <path d="M19 12H5"/>
+            </svg>
+            Back to My Work
+          </Link>
+        </div>
+        <div className="prose prose-invert max-w-none">
+          {/* @ts-expect-error - Wrapper expects toc and metadata props */}
+          <Wrapper toc={mdxToc} metadata={mdxMetadata}>
+            <MDXContent {...props} params={params} />
+          </Wrapper>
+        </div>
+      </div>
+    );
+  }
+
+  // Fallback: Render work item template if no MDX content
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
       <div className="mb-6">
@@ -97,11 +205,6 @@ export default async function WorkItemPage(props: PageProps): Promise<React.JSX.
             {workItem.type}
           </span>
         </div>
-        
-        {/* Add your work item content here */}
-        <p className="text-zinc-300">
-          This is a placeholder for the work item content. You can add more details about this work item here.
-        </p>
       </div>
     </div>
   );

@@ -17,7 +17,7 @@ export async function GET(
 
     // Remove .json extension and construct registry path
     const nameWithoutExt = filePath.replace(/\.json$/, '');
-    const registryPath = path.join(process.cwd(), 'registry', `${nameWithoutExt}.json`);
+    const registryPath = path.join(process.cwd(), 'registry', nameWithoutExt, 'registry-item.json');
     
     // Read the registry file
     const fileContent = await fs.readFile(registryPath, 'utf8');

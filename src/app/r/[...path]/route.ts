@@ -2,6 +2,13 @@ import { NextRequest, NextResponse } from 'next/server';
 import { promises as fs } from 'fs';
 import path from 'path';
 
+interface RegistryFile {
+  path?: string;
+  type?: string;
+  target?: string;
+  content?: string;
+}
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ path: string[] }> }
@@ -26,7 +33,7 @@ export async function GET(
     // Read and inject the actual file contents
     if (json.files && Array.isArray(json.files)) {
       json.files = await Promise.all(
-        json.files.map(async (file: any) => {
+        json.files.map(async (file: RegistryFile) => {
           if (file.path) {
             try {
               const componentPath = path.join(process.cwd(), file.path);

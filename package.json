@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "postbuild": "pnpm build:registry",
+    "build:registry": "pnpm index-registry",
+    "index-registry": "tsx scripts/index-registry.ts"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
@@ -33,6 +36,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.5.3",
     "tailwindcss": "^4",
+    "tsx": "^4.20.6",
     "typescript": "^5"
   }
 }

@@ -22,7 +22,7 @@ export function InfiniteGrid({images}: InfiniteGridProps) {
         () => {
             const root = scope.current
             const containerScaleElement = containerScale.current
-            if (!root || !containerScale) return
+            if (!root || !containerScaleElement) return
 
             const container = root.querySelector(".container1") as HTMLElement
             const wrapper = root.querySelector(".wrapper") as HTMLElement

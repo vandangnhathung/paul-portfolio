@@ -23,6 +23,28 @@ export async function GET(
     const fileContent = await fs.readFile(registryPath, 'utf8');
     const json = JSON.parse(fileContent);
     
+    // Read and inject the actual file contents
+    if (json.files && Array.isArray(json.files)) {
+      json.files = await Promise.all(
+        json.files.map(async (file: any) => {
+          if (file.path) {
+            try {
+              const componentPath = path.join(process.cwd(), file.path);
+              const content = await fs.readFile(componentPath, 'utf8');
+              return {
+                ...file,
+                content: content
+              };
+            } catch (error) {
+              console.error(`Error reading file ${file.path}:`, error);
+              return file; // Return original file object if reading fails
+            }
+          }
+          return file;
+        })
+      );
+    }
+    
     return NextResponse.json(json, {
       headers: {
         'Content-Type': 'application/json',

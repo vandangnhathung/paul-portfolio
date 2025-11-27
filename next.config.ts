@@ -18,16 +18,25 @@ export default withNextra({
         ],
     },
 
-    // webpack: (config, {isServer}) => {
-    //     if(isServer){
-    //         config.externals.push({
-    //             'utf-8-validate': 'commonjs utf-8-validate',
-    //             'bufferutil': 'commonjs bufferutil',
-    //             'zlib-sync': 'commonjs zlib-sync',
-    //         });
-    //     }
-    //     return config;
-    // },
+    webpack: (config) => {
+        // Exclude markdown files from being processed as modules
+        // This prevents server-only code from being bundled in client components
+        // Note: We don't exclude JSON files because they need to be importable as modules
+        config.module.rules.push({
+            test: /registry\/paul\/blocks\/.*\.(md|mdx)$/,
+            type: 'asset/source',
+        });
+
+        // Enable dynamic imports for JSON files in the registry directory
+        // This allows template literal imports like: import(`@/registry/paul/blocks/${name}/registry-item.json`)
+        config.resolve.extensionAlias = {
+            '.js': ['.js', '.ts', '.tsx'],
+            '.jsx': ['.jsx', '.tsx'],
+            '.json': ['.json'],
+        };
+
+        return config;
+    },
 
 
     async rewrites(){

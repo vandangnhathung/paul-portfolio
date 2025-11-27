@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "scrolling-sections",
+  "type": "registry:component",
+  "title": "Scrolling Sections",
+  "description": "A scrolling section component that allows you to create a scrolling section with a list of items.",
+  "dependencies": [
+    "react"
+  ],
+  "files": [
+    {
+      "path": "registry/paul/blocks/scrolling-sections/scrolling-sections.tsx",
+      "type": "registry:component",
+      "target": "components/paul/scrolling-sections.tsx"
+    }
+  ]
+}
+

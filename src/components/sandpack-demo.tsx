@@ -17,16 +17,19 @@ type SandpackDemoProps = {
     openInV0?: boolean;
 };
 
-// Map component names to their example imports
+// Dynamically import example components with error handling
+// Explicitly include .tsx extension to help webpack only bundle component files
 const getExampleComponent = (name: string, exampleFile: string) => {
-    const exampleMap: Record<string, () => Promise<{ default: React.ComponentType }>> = {
-        'infinite-grid-example': () => import('@/registry/paul/blocks/infinite-grid/example'),
-        'infinite-image-carousel-example': () => import('@/registry/paul/blocks/infinite-image-carousel/example'),
-        'infinite-image-carousel-example-02': () => import('@/registry/paul/blocks/infinite-image-carousel/example-02'),
-    };
-
-    const key = `${name}-${exampleFile}`;
-    return exampleMap[key] || null;
+    return () => import(`@/registry/paul/blocks/${name}/${exampleFile}.tsx`).catch(() => {
+        // Return a module with a default error component if import fails
+        return {
+            default: () => (
+                <div className="p-8 flex items-center justify-center">
+                    <p className="text-zinc-500 text-sm">Example not found: {name}/{exampleFile}</p>
+                </div>
+            )
+        };
+    });
 };
 
 export function SandpackDemo({
@@ -40,16 +43,6 @@ export function SandpackDemo({
 }: SandpackDemoProps) {
     const exampleFile = exampleFileName || 'example';
     const importFn = getExampleComponent(registryItem.name, exampleFile);
-
-    if (!importFn) {
-        return (
-            <RegistryPreview height={height} resizable={resizable}>
-                <div className="p-8 flex items-center justify-center" style={{ minHeight: `${height - 60}px` }}>
-                    <p className="text-zinc-500 text-sm">Example not found: {registryItem.name}/{exampleFile}</p>
-                </div>
-            </RegistryPreview>
-        );
-    }
 
     const ExampleComponent = dynamic(importFn, {
         loading: () => (

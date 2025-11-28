@@ -12,6 +12,8 @@
     "index-registry": "tsx scripts/index-registry.ts"
   },
   "dependencies": {
+    "@codesandbox/sandpack-react": "^2.20.0",
+    "@codesandbox/sandpack-themes": "^2.0.21",
     "@gsap/react": "^2.1.2",
     "clsx": "^2.1.1",
     "gsap": "^3.13.0",

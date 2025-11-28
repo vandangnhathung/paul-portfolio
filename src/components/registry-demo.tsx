@@ -1,6 +1,7 @@
 // RegistryDemo.tsx (Server Component)
 // https://ui.shadcn.com/docs/registry
 import { getRegistryItem } from "@/lib/getRegistryItem";
+import { getSandpackFiles } from "@/lib/getSandpackFiles";
 import React from "react";
 import { SandpackDemo } from "@/components/sandpack-demo";
 
@@ -41,9 +42,16 @@ export async function RegistryDemo({
         );
     }
 
+    // Fetch files for Sandpack
+    const files = await getSandpackFiles({
+        registryItem,
+        exampleFileName: exampleFileName || 'example',
+    });
+
     return (
         <SandpackDemo
             registryItem={registryItem}
+            files={files}
             height={height}
             editorHeight={editorHeight}
             exampleFileName={exampleFileName}

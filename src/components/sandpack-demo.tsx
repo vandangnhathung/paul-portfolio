@@ -1,14 +1,25 @@
 "use client";
 
-import React, { Suspense } from 'react';
-import dynamic from 'next/dynamic';
+import React from 'react';
+import {
+    SandpackCodeEditor,
+    SandpackFileExplorer,
+    SandpackLayout,
+    SandpackPreview,
+    SandpackProvider,
+    SandpackProviderProps
+} from "@codesandbox/sandpack-react";
+import { aquaBlue } from "@codesandbox/sandpack-themes";
+import { FaCode, FaGamepad } from "react-icons/fa";
 import type { RegistryItem } from '@/lib/registry-types';
+import type { SandpackFiles } from '@codesandbox/sandpack-react';
 import { RegistryPreview } from './registry-preview';
 import { OpenInV0Button } from './open-in-v0-button';
 import { getRegistryUrl } from '@/lib/getRegistryUrl';
 
 type SandpackDemoProps = {
     registryItem: RegistryItem;
+    files: SandpackFiles;
     height?: number;
     editorHeight?: number;
     exampleFileName?: string;
@@ -17,65 +28,89 @@ type SandpackDemoProps = {
     openInV0?: boolean;
 };
 
-// Dynamically import example components with error handling
-// Explicitly include .tsx extension to help webpack only bundle component files
-const getExampleComponent = (name: string, exampleFile: string) => {
-    return () => import(`@/registry/paul/blocks/${name}/${exampleFile}.tsx`).catch(() => {
-        // Return a module with a default error component if import fails
-        return {
-            default: () => (
-                <div className="p-8 flex items-center justify-center">
-                    <p className="text-zinc-500 text-sm">Example not found: {name}/{exampleFile}</p>
-                </div>
-            )
-        };
-    });
-};
-
 export function SandpackDemo({
     registryItem,
-    height = 450,
-    editorHeight,
-    exampleFileName,
+    files,
+    height = 400,
+    editorHeight = 300,
+    exampleFileName = "example",
     codeEditor = true,
     resizable = true,
     openInV0 = true,
 }: SandpackDemoProps) {
-    const exampleFile = exampleFileName || 'example';
-    const importFn = getExampleComponent(registryItem.name, exampleFile);
-
-    const ExampleComponent = dynamic(importFn, {
-        loading: () => (
-            <div className="p-8 flex items-center justify-center" style={{ minHeight: `${height - 60}px` }}>
-                <p className="text-zinc-500 text-sm">Loading demo...</p>
-            </div>
-        ),
-        ssr: false,
+    // Convert dependencies array to object with 'latest' versions
+    const dependencies: Record<string, string> = {};
+    registryItem.dependencies.forEach(dependency => {
+        dependencies[dependency] = 'latest';
     });
+
+    const sandpackProps: SandpackProviderProps = {
+        theme: aquaBlue,
+        template: "react-ts",
+        options: {
+            externalResources: ["https://cdn.tailwindcss.com"],
+            initMode: "user-visible",
+        },
+        customSetup: {
+            dependencies: dependencies
+        },
+        files: files,
+        style: {
+            [`--sp-layout-height` as any]: `${height}px`
+        }
+    };
 
     // Generate registry URL for V0
     const exampleRegistryUrl = getRegistryUrl({
         name: registryItem.name,
-        fileNamePostfix: `-${exampleFile}`
+        fileNamePostfix: `-${exampleFileName}`
     });
 
     return (
         <div className="mt-6">
-            <RegistryPreview height={height} resizable={resizable}>
-                <Suspense fallback={
-                    <div className="p-8 flex items-center justify-center">
-                        <p className="text-zinc-500 text-sm">Loading demo...</p>
+            <SandpackProvider key={registryItem.name} {...sandpackProps}>
+                <RegistryPreview height={height} resizable={resizable}>
+                    <SandpackPreview showOpenInCodeSandbox={false} />
+                </RegistryPreview>
+
+                {!codeEditor && (
+                    <div className="mt-2 text-sm text-slate-500 flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-2">
+                            <FaGamepad className="w-5" /> Interactive Playground
+                        </div>
+                        <div className="flex items-center gap-2">
+                            {openInV0 && <OpenInV0Button text="Open in" url={exampleRegistryUrl} />}
+                        </div>
                     </div>
-                }>
-                    <ExampleComponent />
-                </Suspense>
-            </RegistryPreview>
-            
-            {openInV0 && (
-                <div className="mt-2 flex items-center justify-end">
-                    <OpenInV0Button url={exampleRegistryUrl} text="Edit in" />
-                </div>
-            )}
+                )}
+
+                {codeEditor && (
+                    <>
+                        <div className="mt-4 text-sm text-slate-500 flex items-center justify-between gap-2">
+                            <div className="flex items-center gap-2">
+                                <FaCode className="w-5" /> Live Playground · Edit and see changes instantly
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <span>Or edit with AI support by </span>
+                                <OpenInV0Button text="Open in" url={exampleRegistryUrl} />
+                            </div>
+                        </div>
+
+                        <SandpackLayout 
+                            className="mt-2" 
+                            style={{ [`--sp-layout-height` as any]: `${editorHeight}px` }}
+                        >
+                            <SandpackFileExplorer />
+                            <SandpackCodeEditor 
+                                closableTabs={true}
+                                showTabs={true}
+                                showLineNumbers={true}
+                                showRunButton={true}
+                            />
+                        </SandpackLayout>
+                    </>
+                )}
+            </SandpackProvider>
         </div>
     );
 }

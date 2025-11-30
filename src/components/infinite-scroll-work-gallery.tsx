@@ -85,7 +85,7 @@ export const InfiniteScrollWorkGallery = ({ workItems: initialWorkItems }: Infin
         const col = document.querySelector(
           `.work-gallery .container${colIndex}`
         ) as HTMLElement;
-        
+
         if (!col) return null;
 
         const half = col.clientHeight / 2;

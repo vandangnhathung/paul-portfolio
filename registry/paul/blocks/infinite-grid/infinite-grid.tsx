@@ -110,21 +110,16 @@ export function InfiniteGrid({ images }: InfiniteGridProps) {
                         <div className="wrapper grid grid-cols-2 w-max will-change-transform">
                             {[...Array(4)].map((_, i) => (
                                 <div
-                                    className="content pointer-events-none grid w-max grid-cols-5 gap-[5vw] p-[calc(5vw/2)] max-[900px]:gap-[10vw] max-[900px]:p-[calc(10vw/2)]"
+                                    className="content pointer-events-none grid w-max grid-cols-5 gap-[5vw] p-[calc(5vw/2)] max-[900px]:gap-[20vw] max-[900px]:p-[calc(20vw/2)]"
                                     key={i}
                                     aria-hidden={i !== 0}
                                 >
                                     {images.map(({ url, title }, index) => (
-                                        <div
-                                            key={index}
-                                            className="w-[40vw] md:w-[18vw] aspect-square select-none"
-                                        >
-                                            <img
-                                                src={url}
-                                                alt={title}
+                                        <div key={index}
+                                            className="w-[50vw] md:w-[18vw] aspect-square select-none">
+                                            <img src={url} alt={title}
                                                 className="w-full h-full object-cover"
-                                                loading="eager"
-                                            />
+                                                loading="eager" />
                                         </div>
                                     ))}
                                 </div>

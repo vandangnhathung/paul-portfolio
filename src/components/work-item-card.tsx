@@ -7,21 +7,23 @@ import type { WorkItem as WorkItemType } from '@/lib/type'
 
 interface WorkItemProps {
   item: WorkItemType
+  containerHeight?: number
 }
 
-export const WorkItemCard = ({ item }: WorkItemProps) => {
+export const WorkItemCard = ({ item, containerHeight: overrideHeight }: WorkItemProps) => {
   const { imgUrl, containerHeight, workName, workDate, type, url } = item
-  const heightClassByContainer: Record<string, string> = {
-    '200': 'h-[200px]',
-    '250': 'h-[250px]',
-    '300': 'h-[300px]',
-    '350': 'h-[350px]',
-    '400': 'h-[400px]',
-    '450': 'h-[450px]',
-    '500': 'h-[500px]',
-    '550': 'h-[550px]',
+  const finalHeight: number = overrideHeight ?? Number(containerHeight)
+  const heightClassByContainer: Record<number, string> = {
+    1: 'h-[200px]',
+    2: 'h-[250px]',
+    3: 'h-[300px]',
+    4: 'h-[350px]',
+    5: 'h-[400px]',
+    6: 'h-[450px]',
+    7: 'h-[500px]',
+    8: 'h-[550px]',
   }
-  const heightClass = heightClassByContainer[containerHeight] || 'h-[300px]'
+  const heightClass: string = heightClassByContainer[finalHeight] || 'h-[300px]'
 
   return (
     <div
@@ -41,8 +43,7 @@ export const WorkItemCard = ({ item }: WorkItemProps) => {
           </div>
 
           <div className="absolute bottom-0 w-full flex justify-between p-4">
-            <p className="font-medium">{workName}</p>
-            <p className="text-zinc-400">{workDate}</p>
+            <p className="text-xs sm:font-medium">{workName}</p>
           </div>
         </div>
       </Link>

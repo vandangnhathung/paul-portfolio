@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useMemo } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import Lenis from 'lenis'
@@ -141,7 +141,19 @@ export const InfiniteScrollWorkGallery = ({ workItems: initialWorkItems }: Infin
   }, []);
 
   // ============================================================================
-  // STEP 5: Distribute work items across columns
+  // STEP 5: Generate stable random heights for each work item
+  // ============================================================================
+  // Create a mapping of item IDs to random heights that won't change on re-render
+  const itemHeights = useMemo(() => {
+    const heights: Record<string, number> = {};
+    workItems.forEach((item) => {
+      heights[item.id] = Math.floor(Math.random() * 8) + 1;
+    });
+    return heights;
+  }, [workItems]);
+
+  // ============================================================================
+  // STEP 6: Distribute work items across columns
   // ============================================================================
   // Split the work items array into equal columns using modulo distribution
   // (item 0 goes to col 0, item 1 to col 1, item 2 to col 2, item 3 to col 0, etc.)
@@ -159,23 +171,23 @@ export const InfiniteScrollWorkGallery = ({ workItems: initialWorkItems }: Infin
   }
 
   // ============================================================================
-  // STEP 6: Render the gallery layout
+  // STEP 7: Render the gallery layout
   // ============================================================================
   // Create a masonry-style layout with columns. Each column renders its items
   // twice (original + duplicate) to enable seamless infinite scrolling when
   // columns wrap around during animation.
   return (
     <div
-      className="work-gallery overflow-hidden h-screen w-full flex flex-col lg:flex-row gap-2 no-scroll-anchor"
+      className="work-gallery overflow-hidden h-screen w-full grid grid-cols-2 lg:grid-cols-3 gap-2 no-scroll-anchor"
       ref={container}
     >
       {columns.map((column, colIndex) => (
-        <div key={colIndex} className={`container${colIndex + 1} w-full h-max`}>
+        <div key={colIndex} className={`container${colIndex + 1} w-full aspect-square`}>
           {column.map((item) => (
-            <WorkItemCard key={item.id} item={item} />
+            <WorkItemCard key={item.id} item={item} containerHeight={itemHeights[item.id]} />
           ))}
           {column.map((item) => (
-            <WorkItemCard key={`duplicate-${item.id}`} item={item} />
+            <WorkItemCard key={`duplicate-${item.id}`} item={item} containerHeight={itemHeights[item.id]} />
           ))}
         </div>
       ))}

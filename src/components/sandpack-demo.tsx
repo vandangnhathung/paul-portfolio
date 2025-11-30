@@ -61,9 +61,10 @@ export function SandpackDemo({
     };
 
     // Generate registry URL for V0
+    // Always use the base registry item (no fileNamePostfix) since the build script
+    // only generates one JSON file per component (e.g., infinite-image-carousel.json)
     const exampleRegistryUrl = getRegistryUrl({
-        name: registryItem.name,
-        fileNamePostfix: `-${exampleFileName}`
+        name: registryItem.name
     });
 
     return (

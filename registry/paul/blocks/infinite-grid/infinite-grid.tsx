@@ -8,13 +8,22 @@ gsap.registerPlugin(Observer, useGSAP)
 
 export interface InfiniteGridProps {
     /** Array of images. **/
-    images: {
+    images?: {
         url: string;
         title: string;
     }[]
 }
 
-export function InfiniteGrid({ images }: InfiniteGridProps) {
+export function InfiniteGrid({ images = [] }: InfiniteGridProps) {
+    // Guard check: return early if no images provided
+    if (!images || images.length === 0) {
+        return (
+            <div className="flex items-center justify-center h-screen text-gray-500">
+                No images to display
+            </div>
+        );
+    }
+
     const scope = useRef<HTMLDivElement | null>(null)
     const containerScale = useRef<HTMLDivElement | null>(null)
 

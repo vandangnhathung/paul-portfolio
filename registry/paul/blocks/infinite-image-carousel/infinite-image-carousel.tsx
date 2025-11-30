@@ -11,7 +11,7 @@ gsap.registerPlugin(Observer, ScrollTrigger);
 
 export type ImageCarouselProps = {
     /** List of image objects to display in the carousel. Each must contain a valid `url` property. */
-    images: { url: string, title?: string }[];
+    images?: { url: string, title?: string }[];
 
     /** Custom class for each item wrapper, useful when you want to tweak the size or gap. Example: `xl:[--width:15vw] lg:[--width:260px] [--width:120px]` */
     itemClass?: string;
@@ -51,13 +51,22 @@ export function InfiniteImageCarousel(props: ImageCarouselProps) {
         imageClass = '',
         isLogo = false,
         hoverDuration = 60,
-        images,
+        images = [],
         direction = -1,
         drag = true,
         hover = true,
         scroll = false,
         scrollSensitivity = 200,
     } = props;
+
+    // Guard check: return early if no images provided
+    if (!images || images.length === 0) {
+        return (
+            <div className="flex items-center justify-center p-8 text-gray-500">
+                No images to display
+            </div>
+        );
+    }
 
     // Reference to the main carousel container element
     const scope = useRef<HTMLDivElement | null>(null);

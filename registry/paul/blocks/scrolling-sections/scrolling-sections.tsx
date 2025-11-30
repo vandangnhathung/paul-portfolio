@@ -28,10 +28,16 @@ export function ScrollingSections({ exampleProp = "default value" }: ScrollingSe
   useGSAP(() => {
     const slides = document.querySelectorAll('.slide');
 
+    // Guard check: ensure slides exist
+    if (!slides || slides.length === 0) return;
+
     slides.forEach((slide, index) => {
       const contentWrapper = slide.querySelector('.content-wrapper');
       if (!contentWrapper) return;
       const content = contentWrapper.querySelector('.content')
+
+      // Guard check: ensure content exists before animating
+      if (!content) return;
 
       if (index !== slides.length - 1) {
         gsap.to(content, {

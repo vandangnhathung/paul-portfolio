@@ -1,6 +1,5 @@
 'use client'
 
-import { useEffect } from 'react';
 import { useRouteLoadingStore } from '@/stores/route-loading-store';
 
 /**

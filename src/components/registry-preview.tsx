@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -42,12 +42,6 @@ export function RegistryPreview({ children, height = 450, resizable = true }: Pr
             roGroup.disconnect();
         };
     }, []);
-
-    const minSizePct = useMemo(() => {
-        if (!containerWidth) return undefined;
-        const pct = (375 / containerWidth) * 100;
-        return Math.min(100, Math.max(1, pct));
-    }, [containerWidth]);
 
     const atFullWidth =
         containerWidth > 0 && Math.abs(panelWidth - containerWidth) <= 5;

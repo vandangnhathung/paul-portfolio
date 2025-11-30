@@ -3,7 +3,6 @@ import '@/styles/globals.css'
 import type { Metadata } from "next";
 import { IBM_Plex_Mono } from "next/font/google";
 import { Layout } from "nextra-theme-blog";
-import { CustomHeader } from '@/components/custom-header';
 import { Dock } from '@/components/dock';
 import { ViewTransitions } from 'next-view-transitions';
 import { RouteLoadingInit } from '@/components/route-loading-init';

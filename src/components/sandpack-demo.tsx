@@ -56,7 +56,7 @@ export function SandpackDemo({
         },
         files: files,
         style: {
-            [`--sp-layout-height` as any]: `${height}px`
+            ['--sp-layout-height' as string]: `${height}px`
         }
     };
 
@@ -95,7 +95,7 @@ export function SandpackDemo({
 
                         <SandpackLayout
                             className="mt-2"
-                            style={{ [`--sp-layout-height` as any]: `${editorHeight}px` }}
+                            style={{ ['--sp-layout-height' as string]: `${editorHeight}px` }}
                         >
                             <SandpackFileExplorer />
                             <SandpackCodeEditor

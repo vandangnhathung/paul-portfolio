@@ -8,7 +8,7 @@ import type { RegistryItem } from '@/lib/registry-types';
 function getRegistryImport(name: string) {
     // Map component names to their registry JSON imports
     // This helps webpack statically analyze the imports
-    const registryImports: Record<string, () => Promise<any>> = {
+    const registryImports: Record<string, () => Promise<{ default?: RegistryItem; [key: string]: unknown }>> = {
         'infinite-grid': () => import('@/registry/paul/blocks/infinite-grid/registry-item.json'),
         'infinite-image-carousel': () => import('@/registry/paul/blocks/infinite-image-carousel/registry-item.json'),
         'scrolling-sections': () => import('@/registry/paul/blocks/scrolling-sections/registry-item.json'),
@@ -91,7 +91,7 @@ export async function getRegistryItem(
         };
 
         return merged;
-    } catch (error) {
+    } catch {
         // Example JSON doesn't exist - return base item
         return baseItem;
     }

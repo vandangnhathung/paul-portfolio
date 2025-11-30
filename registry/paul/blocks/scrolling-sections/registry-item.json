@@ -5,7 +5,9 @@
   "title": "Scrolling Sections",
   "description": "A scrolling section component that allows you to create a scrolling section with a list of items.",
   "dependencies": [
-    "react"
+    "react",
+    "gsap",
+    "@gsap/react"
   ],
   "files": [
     {

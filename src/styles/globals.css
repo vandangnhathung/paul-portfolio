@@ -56,6 +56,7 @@
 }
 
 @layer base {
+
   /* Disables pull-to-refresh and overscroll glow effect. Still keeps swipe navigations. */
   html,
   body {
@@ -86,6 +87,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }

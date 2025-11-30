@@ -90,24 +90,25 @@ export function SandpackDemo({
                             <div className="flex items-center gap-2">
                                 <FaCode className="w-5" /> Live Playground · Edit and see changes instantly
                             </div>
-                            <div className="flex items-center gap-2">
-                                <span>Or edit with AI support by </span>
-                                <OpenInV0Button text="Open in" url={exampleRegistryUrl} />
-                            </div>
+
                         </div>
 
-                        <SandpackLayout 
-                            className="mt-2" 
+                        <SandpackLayout
+                            className="mt-2"
                             style={{ [`--sp-layout-height` as any]: `${editorHeight}px` }}
                         >
                             <SandpackFileExplorer />
-                            <SandpackCodeEditor 
+                            <SandpackCodeEditor
                                 closableTabs={true}
                                 showTabs={true}
                                 showLineNumbers={true}
                                 showRunButton={true}
                             />
                         </SandpackLayout>
+                        <div className="flex items-center justify-end gap-2 ext-sm text-slate-500 mt-2">
+                            <span>Or edit with AI support by </span>
+                            <OpenInV0Button text="Open in" url={exampleRegistryUrl} />
+                        </div>
                     </>
                 )}
             </SandpackProvider>

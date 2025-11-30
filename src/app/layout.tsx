@@ -28,20 +28,22 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" dir="ltr"
-     // Suggested by `next-themes` package https://github.com/pacocoursey/next-themes#with-app
-     suppressHydrationWarning
+      // Suggested by `next-themes` package https://github.com/pacocoursey/next-themes#with-app
+      suppressHydrationWarning
 
-     className={`${ibmPlexMono.variable}`}>
+      className={`${ibmPlexMono.variable}`}>
       <ViewTransitions>
         <body>
-          <RouteLoadingInit />
-          <RouteProgressBar />
-          <Layout>
-            <div className="min-h-screen flex flex-col justify-between">
-              {children}
-              <Dock />
-            </div>
-          </Layout>
+          <div className="article-container">
+            <RouteLoadingInit />
+            <RouteProgressBar />
+            <Layout>
+              <div className="min-h-screen flex flex-col justify-between">
+                {children}
+                <Dock />
+              </div>
+            </Layout>
+          </div>
         </body>
       </ViewTransitions>
     </html>

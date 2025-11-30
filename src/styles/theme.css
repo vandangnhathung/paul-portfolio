@@ -1,21 +1,5 @@
-.article-container>article.x\:container {
-     @apply max-w-[800px] py-0;
-}
-
-.content-wrapper> :first-child {
-     @apply mt-0;
-}
-
-.content-wrapper> :last-child {
-     @apply mb-0;
-}
-
-article.x\:container {
-     @apply py-0
-}
-
 /* Override for full-width pages */
-article.x\:container:has(.full-width-content) {
+.article-container>article.x\:container:has(.full-width-content) {
      @apply max-w-none;
 }
 

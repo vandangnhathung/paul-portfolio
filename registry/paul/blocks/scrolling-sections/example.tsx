@@ -6,7 +6,7 @@ import { ScrollingSections } from "./scrolling-sections";
 
 export default function Example() {
   return (
-    <div className="container mx-auto p-8">
+    <div className="">
       <ScrollingSections exampleProp="Example value" />
     </div>
   )

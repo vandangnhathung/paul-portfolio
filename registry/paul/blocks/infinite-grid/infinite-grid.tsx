@@ -1,8 +1,8 @@
 "use client"
-import React, {useRef} from "react"
+import React, { useRef } from "react"
 import gsap from "gsap"
-import {useGSAP} from "@gsap/react"
-import {Observer} from "gsap/Observer"
+import { useGSAP } from "@gsap/react"
+import { Observer } from "gsap/Observer"
 
 gsap.registerPlugin(Observer, useGSAP)
 
@@ -14,7 +14,7 @@ export interface InfiniteGridProps {
     }[]
 }
 
-export function InfiniteGrid({images}: InfiniteGridProps) {
+export function InfiniteGrid({ images }: InfiniteGridProps) {
     const scope = useRef<HTMLDivElement | null>(null)
     const containerScale = useRef<HTMLDivElement | null>(null)
 
@@ -37,12 +37,12 @@ export function InfiniteGrid({images}: InfiniteGridProps) {
             const xTo = gsap.quickTo(wrapper, "x", {
                 duration: 1.5,
                 ease: "power4",
-                modifiers: {x: gsap.utils.unitize(wrapX)},
+                modifiers: { x: gsap.utils.unitize(wrapX) },
             })
             const yTo = gsap.quickTo(wrapper, "y", {
                 duration: 1.5,
                 ease: "power4",
-                modifiers: {y: gsap.utils.unitize(wrapY)},
+                modifiers: { y: gsap.utils.unitize(wrapY) },
             })
 
             const scaleToX = gsap.quickTo(container, "scaleX", {
@@ -99,7 +99,7 @@ export function InfiniteGrid({images}: InfiniteGridProps) {
                 gsapObserver.kill()
             }
         },
-        {scope}
+        { scope }
     )
 
     return (
@@ -110,16 +110,21 @@ export function InfiniteGrid({images}: InfiniteGridProps) {
                         <div className="wrapper grid grid-cols-2 w-max will-change-transform">
                             {[...Array(4)].map((_, i) => (
                                 <div
-                                    className="content pointer-events-none grid w-max grid-cols-5 gap-[5vw] p-[calc(5vw/2)] max-[900px]:gap-[20vw] max-[900px]:p-[calc(20vw/2)]"
+                                    className="content pointer-events-none grid w-max grid-cols-5 gap-[5vw] p-[calc(5vw/2)] max-[900px]:gap-[10vw] max-[900px]:p-[calc(10vw/2)]"
                                     key={i}
                                     aria-hidden={i !== 0}
                                 >
-                                    {images.map(({url, title}, index) => (
-                                        <div key={index}
-                                             className="w-[50vw] md:w-[18vw] aspect-square select-none">
-                                            <img src={url} alt={title}
-                                                 className="w-full h-full object-cover"
-                                                 loading="eager"/>
+                                    {images.map(({ url, title }, index) => (
+                                        <div
+                                            key={index}
+                                            className="w-[40vw] md:w-[18vw] aspect-square select-none"
+                                        >
+                                            <img
+                                                src={url}
+                                                alt={title}
+                                                className="w-full h-full object-cover"
+                                                loading="eager"
+                                            />
                                         </div>
                                     ))}
                                 </div>

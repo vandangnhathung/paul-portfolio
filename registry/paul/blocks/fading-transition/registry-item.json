@@ -7,7 +7,8 @@
   "dependencies": [
     "react",
     "gsap",
-    "@gsap/react"
+    "@gsap/react",
+    "lenis"
   ],
   "files": [
     {

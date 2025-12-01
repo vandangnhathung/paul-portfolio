@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "fading-transition",
+  "type": "registry:component",
+  "title": "Fading Transition",
+  "description": "a series of images appear using a gradient as a mask. The whole effect will be tied to the user’s scroll progress.",
+  "dependencies": [
+    "react",
+    "gsap",
+    "@gsap/react"
+  ],
+  "files": [
+    {
+      "path": "registry/paul/blocks/fading-transition/fading-transition.tsx",
+      "type": "registry:component",
+      "target": "components/paul/fading-transition.tsx"
+    }
+  ]
+}
+

@@ -78,6 +78,9 @@ export const InfiniteScrollWorkGallery = ({ workItems: initialWorkItems }: Infin
 
     // Initialize the column animation system
     const initEffect = () => {
+      // Define different durations for each column to create varied animation speeds
+      const durations = [1.0, 1.5, 2.0];
+      
       // Create animation functions for each column that can smoothly move
       // columns up/down with wrapping for infinite scroll effect
       const yToFunctions = Array.from({ length: COLUMN_COUNT }, (_, i) => {
@@ -92,7 +95,7 @@ export const InfiniteScrollWorkGallery = ({ workItems: initialWorkItems }: Infin
         const wrap = gsap.utils.wrap(-half, 0);
 
         return gsap.quickTo(col, "y", {
-          duration: 1.5,
+          duration: durations[i] || 1.5,
           ease: "power3",
           modifiers: {
             y: gsap.utils.unitize(wrap),
@@ -181,6 +184,7 @@ export const InfiniteScrollWorkGallery = ({ workItems: initialWorkItems }: Infin
       className="work-gallery overflow-hidden h-screen w-full grid grid-cols-2 lg:grid-cols-3 gap-2 no-scroll-anchor"
       ref={container}
     >
+      {/* At least 10 items to make this animation work perfectly */}
       {columns.map((column, colIndex) => (
         <div key={colIndex} className={`container${colIndex + 1} w-full aspect-square`}>
           {column.map((item) => (

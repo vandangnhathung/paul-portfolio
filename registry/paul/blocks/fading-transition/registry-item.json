@@ -8,7 +8,8 @@
     "react",
     "gsap",
     "@gsap/react",
-    "lenis"
+    "lenis",
+    "clsx"
   ],
   "files": [
     {
